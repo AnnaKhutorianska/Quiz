@@ -13,7 +13,7 @@ const Quiz = () => {
 	const fetchQuestions = async () => {
 		const response = await fetch(url);
 		const data = await response.json();
-		
+
 		const questionInfo = data.results.map((info, index) => {
 			const { question, incorrect_answers, correct_answer: correctAnswer } = info;
 			const allAnswers = [...incorrect_answers, correctAnswer].sort(() => Math.random() - 0.5);
@@ -31,8 +31,12 @@ const Quiz = () => {
 	};
 
 	useEffect(() => {
-		fetchQuestions();
-		setPlayAgain(false);
+		if(!playAgain){
+			fetchQuestions();
+		} else {
+			setPlayAgain(false)
+		}
+		
 	}, [playAgain]);
 
 	const getAnswer = (id, ans) => {
@@ -52,14 +56,11 @@ const Quiz = () => {
 		setScore(count);
 	};
 
-	console.log(score);
-	console.log(questionsData);
-
 	const startQuizAgain = () => {
 		setIsChecked(false);
 		setQuestionsData([]);
 		setScore(0);
-		setPlayAgain(true);
+		fetchQuestions();
 	};
 
 	return (
@@ -74,7 +75,7 @@ const Quiz = () => {
 					/>
 				))}
 			</div>
-			<div className='quiz-buttons'>
+			<div className="quiz-buttons">
 				{!isChecked ? (
 					<>
 						<button

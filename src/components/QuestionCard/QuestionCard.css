@@ -46,10 +46,10 @@
 	border: 1px solid transparent;
 }
 
-.correct-ans {
-	background-color: rgb(146, 248, 112);
+.card__answer-btn--green {
+	background-color: rgb(186, 252, 164);
 }
 
-.wrong-ans {
-	background-color: rgb(235, 92, 92);
+.card__answer-btn--red {
+	background-color: rgb(235, 154, 154);
 }

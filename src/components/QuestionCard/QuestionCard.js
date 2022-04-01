@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './QuestionCard.css';
 
 const QuestionCard = (props) => {
-	const { question, allAnswers, id } = props.question;
+	const { question, allAnswers, id, correctAnswer } = props.question;
 	const [selectedAnswer, setSelectedAnswer] = useState('');
 
 	const handleClick = (answer) => {
@@ -18,21 +18,27 @@ const QuestionCard = (props) => {
 				<div dangerouslySetInnerHTML={{ __html: question }} />
 			</p>
 			<div className="card__answers">
-				{allAnswers.map((answer, index) => (
-					<button
-						className={`btn card__answer-btn ${
-							selectedAnswer === answer
-								? 'card__answer-btn--selected'
-								: 'card__answer--not-selected'
-						}`}
-						key={index}
-						onClick={() => {
-							handleClick(answer);
-						}}
-					>
-						{answer}
-					</button>
-				))}
+				{allAnswers.map((answer, index) => {
+					const isSelected = answer === selectedAnswer;
+					const isCorrect = props.isChecked && isSelected && selectedAnswer === correctAnswer;
+					const isIncorrect = props.isChecked && isSelected && selectedAnswer !== correctAnswer;
+
+					return (
+						<button
+							className={`btn card__answer-btn card__answer--not-selected
+							${isSelected && 'card__answer-btn--selected'}
+							${isIncorrect && 'card__answer-btn--red'}
+							${isCorrect && 'card__answer-btn--green'}
+							`}
+							key={index}
+							onClick={() => {
+								handleClick(answer);
+							}}
+						>
+							{answer}
+						</button>
+					);
+				})}
 			</div>
 		</div>
 	);
